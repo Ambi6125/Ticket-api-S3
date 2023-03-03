@@ -6,6 +6,7 @@ import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountDTO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -67,9 +68,19 @@ public class RAMAccountRepo implements AccountRepository {
         allAccounts.set(index, account);
     }
 
+    @Override
+    public List<AccountDTO> getAll()
+    {
+        return Collections.unmodifiableList(allAccounts);
+    }
+
     public AccountDTO getById(int id)
     {
         return allAccounts.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
     }
-
+    @Override
+    public void delete(int id)
+    {
+        allAccounts.removeIf(x -> x.getId() == id);
+    }
 }

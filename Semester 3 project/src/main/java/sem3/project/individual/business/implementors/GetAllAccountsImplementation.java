@@ -10,6 +10,7 @@ import sem3.project.individual.persistence.entity.AccountDTO;
 
 import java.sql.Array;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class GetAllAccountsImplementation implements GetMultipleAccountsFunction
             String username = v.getUsername();
             String email = v.getEmail();
             String password = v.getPassword();
-            Instant time = v.getTimeCreated();
+            LocalDateTime time = v.getTimeCreated();
 
             accounts.add(new Account(id, username, email, password, time));
         }

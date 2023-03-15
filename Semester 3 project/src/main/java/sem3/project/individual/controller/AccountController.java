@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.DeleteAccountsFunctionality;
 import sem3.project.individual.business.GetMultipleAccountsFunctionality;
-import sem3.project.individual.business.implementors.GetAllAccountsImplementation;
 import sem3.project.individual.domain.accounts.CreateAccountRequest;
 import sem3.project.individual.domain.accounts.CreateAccountResponse;
 import sem3.project.individual.domain.accounts.GetAllAccountsResponse;

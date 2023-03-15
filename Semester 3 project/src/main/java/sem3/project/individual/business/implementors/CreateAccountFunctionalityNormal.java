@@ -11,6 +11,7 @@ import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountDTO;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Service @AllArgsConstructor
 public class CreateAccountFunctionalityNormal implements CreateAccountFunctionality
@@ -33,7 +34,7 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
     {
         AccountDTO newAcc = AccountDTO.builder()
                 .username(request.getUsername())
-                .timeCreated(Instant.now())
+                .timeCreated(LocalDateTime.now())
                 .password(request.getPassword())
                 .email(request.getEmail())
                 .build();

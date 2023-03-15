@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -14,5 +15,5 @@ public class Account
     private String username;
     private String email;
     private String password;
-    private final Instant timeCreated;
+    private final LocalDateTime timeCreated;
 }

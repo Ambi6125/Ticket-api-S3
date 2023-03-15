@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data @Builder
 public class AccountDTO
@@ -13,5 +14,5 @@ public class AccountDTO
     private String username;
     private String email;
     private String password;
-    private final Instant timeCreated;
+    private final LocalDateTime timeCreated;
 }

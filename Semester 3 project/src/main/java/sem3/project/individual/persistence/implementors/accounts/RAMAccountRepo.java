@@ -47,24 +47,24 @@ public class RAMAccountRepo implements AccountRepository {
     }
 
 
-    @Override @SneakyThrows
+    @Override
     public void update(AccountDTO account)
     {
         //Check if account does not exist
-        var searchresult = allAccounts.stream().filter(x -> x.getId() == account.getId());
+        var searchResult = allAccounts.stream().filter(x -> x.getId() == account.getId());
 
-        if(searchresult.count() < 1)
+        if(searchResult.count() < 1)
         {
             throw new NoSuchElementException(String.format("No element with ID %s exists", account.getId()));
         }
-        else if(searchresult.count() > 1)
+        else if(searchResult.count() > 1)
         {
             throw new IllegalArgumentException("Multiple such accounts exist.");
         }
 
 
         //Replace at index the instance resides
-        int index = allAccounts.indexOf(searchresult.findFirst().get());
+        int index = allAccounts.indexOf(searchResult.findFirst().get());
         allAccounts.set(index, account);
     }
 

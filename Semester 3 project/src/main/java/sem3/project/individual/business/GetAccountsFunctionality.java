@@ -1,12 +1,11 @@
 package sem3.project.individual.business;
 
 
-import sem3.project.individual.domain.accounts.Account;
+import sem3.project.individual.domain.accounts.GetAccountResponse;
 import sem3.project.individual.domain.accounts.GetAllAccountsResponse;
 
-import java.util.List;
-
-public interface GetMultipleAccountsFunctionality
+public interface GetAccountsFunctionality
 {
     GetAllAccountsResponse getAllAccounts();
+    GetAccountResponse get(String username);
 }

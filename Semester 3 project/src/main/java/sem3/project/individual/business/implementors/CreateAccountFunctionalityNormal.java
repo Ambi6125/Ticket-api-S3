@@ -4,13 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.exceptions.UsernameTakenException;
-import sem3.project.individual.domain.accounts.Account;
 import sem3.project.individual.domain.accounts.CreateAccountRequest;
 import sem3.project.individual.domain.accounts.CreateAccountResponse;
 import sem3.project.individual.persistence.AccountRepository;
-import sem3.project.individual.persistence.entity.AccountDTO;
+import sem3.project.individual.persistence.entity.AccountEntity;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Service @AllArgsConstructor
@@ -30,9 +28,9 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
         return new CreateAccountResponse(responseAccount.getId());
     }
 
-    private AccountDTO saveAccount(CreateAccountRequest request)
+    private AccountEntity saveAccount(CreateAccountRequest request)
     {
-        AccountDTO newAcc = AccountDTO.builder()
+        AccountEntity newAcc = AccountEntity.builder()
                 .username(request.getUsername())
                 .timeCreated(LocalDateTime.now())
                 .password(request.getPassword())

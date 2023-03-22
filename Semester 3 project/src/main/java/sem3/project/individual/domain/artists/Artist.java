@@ -1,14 +1,15 @@
 package sem3.project.individual.domain.artists;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class Artist
 {
-    private int id;
+    private final int id;
     private String name;
 
     @Setter

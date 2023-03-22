@@ -1,20 +1,24 @@
 package sem3.project.individual.persistence.implementors.accounts;
 
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
+import sem3.project.individual.domain.accounts.Account;
+import sem3.project.individual.domain.accounts.UpdateAccountRequest;
+import sem3.project.individual.domain.accounts.UpdateAccountResponse;
+import sem3.project.individual.misc.UnexpectedResultException;
 import sem3.project.individual.persistence.AccountRepository;
-import sem3.project.individual.persistence.entity.AccountDTO;
+import sem3.project.individual.persistence.entity.AccountEntity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Repository
 public class RAMAccountRepo implements AccountRepository {
 
     private static int NEXT_ID = 1;
-    private final List<AccountDTO> allAccounts;
+    private final List<AccountEntity> allAccounts;
 
     public RAMAccountRepo()
     {
@@ -34,7 +38,7 @@ public class RAMAccountRepo implements AccountRepository {
     }
 
     @Override
-    public AccountDTO create(AccountDTO account)
+    public AccountEntity create(AccountEntity account)
     {
         if(allAccounts.stream().anyMatch(x -> x.getId() == account.getId()))
         {
@@ -48,33 +52,51 @@ public class RAMAccountRepo implements AccountRepository {
 
 
     @Override
-    public void update(AccountDTO account)
+    public UpdateAccountResponse update(AccountEntity account)
     {
-        //Check if account does not exist
-        var searchResult = allAccounts.stream().filter(x -> x.getId() == account.getId());
+       AccountEntity target;
 
-        if(searchResult.count() < 1)
-        {
-            throw new NoSuchElementException(String.format("No element with ID %s exists", account.getId()));
-        }
-        else if(searchResult.count() > 1)
-        {
-            throw new IllegalArgumentException("Multiple such accounts exist.");
-        }
+       try
+       {
+           target = allAccounts.stream()
+                   .filter(x -> x.getId() == account.getId())
+                   .findFirst()
+                   .orElseThrow(NoSuchElementException::new);
 
+       }
+       catch (NoSuchElementException notFound)
+       {
+           return new UpdateAccountResponse(false, "Account not found.");
+       }
 
-        //Replace at index the instance resides
-        int index = allAccounts.indexOf(searchResult.findFirst().get());
-        allAccounts.set(index, account);
+       int valuesChanged = 0;
+
+       if(!account.getUsername().equals(target.getUsername()))
+       {
+           target.setUsername(account.getUsername());
+           valuesChanged++;
+       }
+       if(!account.getPassword().equals(target.getPassword()))
+       {
+           target.setPassword(account.getPassword());
+           valuesChanged++;
+       }
+       if(!account.getEmail().equals(target.getEmail()))
+       {
+           target.setEmail(account.getEmail());
+           valuesChanged++;
+       }
+
+       return new UpdateAccountResponse(true, "Account updated");
     }
 
     @Override
-    public List<AccountDTO> getAll()
+    public List<AccountEntity> getAll()
     {
         return Collections.unmodifiableList(allAccounts);
     }
 
-    public AccountDTO getById(int id)
+    public AccountEntity getById(int id)
     {
         return allAccounts.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
     }
@@ -83,4 +105,17 @@ public class RAMAccountRepo implements AccountRepository {
     {
         allAccounts.removeIf(x -> x.getId() == id);
     }
+
+    @Override
+    public AccountEntity get(String username) throws UnexpectedResultException {
+        var searchResult = allAccounts.stream().filter(a -> a.getUsername().equals(username)).toList();
+
+        if(searchResult.size() > 1)
+        {
+            throw new UnexpectedResultException("Only one result expected");
+        }
+
+        return searchResult.stream().findFirst().orElse(null);
+    }
+
 }

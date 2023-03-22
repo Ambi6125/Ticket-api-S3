@@ -1,14 +1,14 @@
 package sem3.project.individual.persistence.entity;
 
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Data @Builder
-public class AccountDTO
+public class AccountEntity
 {
     private int id;
     private String username;

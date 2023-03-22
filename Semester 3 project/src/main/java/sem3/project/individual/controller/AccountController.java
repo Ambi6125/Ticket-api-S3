@@ -7,10 +7,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.DeleteAccountsFunctionality;
-import sem3.project.individual.business.GetMultipleAccountsFunctionality;
-import sem3.project.individual.domain.accounts.CreateAccountRequest;
-import sem3.project.individual.domain.accounts.CreateAccountResponse;
-import sem3.project.individual.domain.accounts.GetAllAccountsResponse;
+import sem3.project.individual.business.GetAccountsFunctionality;
+import sem3.project.individual.business.UpdateAccountFunctionality;
+import sem3.project.individual.domain.accounts.*;
+
+import java.net.http.HttpResponse;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/accounts")
@@ -18,13 +20,14 @@ import sem3.project.individual.domain.accounts.GetAllAccountsResponse;
 public class AccountController
 {
     private final CreateAccountFunctionality createFunctionality;
-    private final GetMultipleAccountsFunctionality getAllFunctionality;
+    private final GetAccountsFunctionality getAccountFunctionality;
     private final DeleteAccountsFunctionality deleteAccountsFunctionality;
+    private final UpdateAccountFunctionality updateAccountFunctionality;
 
     @GetMapping
     public ResponseEntity<GetAllAccountsResponse> getAll()
     {
-        GetAllAccountsResponse response = getAllFunctionality.getAllAccounts();
+        GetAllAccountsResponse response = getAccountFunctionality.getAllAccounts();
         return ResponseEntity.ok(response);
     }
 
@@ -40,5 +43,20 @@ public class AccountController
     {
         deleteAccountsFunctionality.deleteAccount(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<GetAccountResponse> getAccount(@PathVariable String username)
+    {
+        Optional<GetAccountResponse> responseOptional = Optional.of(getAccountFunctionality.get(username));
+
+        return responseOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+    }
+
+    @PutMapping
+    public ResponseEntity<UpdateAccountResponse> updateAccount(@RequestBody UpdateAccountRequest request)
+    {
+        UpdateAccountResponse response = updateAccountFunctionality.update(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

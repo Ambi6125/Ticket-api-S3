@@ -1,21 +1,25 @@
 package sem3.project.individual.business.implementors;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
-import sem3.project.individual.business.GetMultipleAccountsFunctionality;
+import sem3.project.individual.business.GetAccountsFunctionality;
 import sem3.project.individual.domain.accounts.Account;
+import sem3.project.individual.domain.accounts.GetAccountResponse;
 import sem3.project.individual.domain.accounts.GetAllAccountsResponse;
+import sem3.project.individual.misc.NotImplementedException;
+import sem3.project.individual.misc.UnexpectedResultException;
 import sem3.project.individual.persistence.AccountRepository;
-import sem3.project.individual.persistence.entity.AccountDTO;
+import sem3.project.individual.persistence.entity.AccountEntity;
 
-import java.sql.Array;
-import java.time.Instant;
+import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service @AllArgsConstructor
-public class GetAllAccountsImplementation implements GetMultipleAccountsFunctionality//How else would I implement this lmao
+public class GetAccountsDefaultImplementation implements GetAccountsFunctionality//How else would I implement this lmao
 {
     private final AccountRepository repo;
 
@@ -38,5 +42,27 @@ public class GetAllAccountsImplementation implements GetMultipleAccountsFunction
 
         responseAccounts.setAccounts(accounts);
         return responseAccounts;
+    }
+
+    @Override
+    public GetAccountResponse get(String username)
+    {
+        AccountEntity response;
+        try
+        {
+            response = repo.get(username);
+        }
+        catch (UnexpectedResultException e)
+        {
+            return null;
+        }
+
+        int id = response.getId();
+        String email = response.getEmail();
+        String password = response.getPassword();
+        LocalDateTime dt = response.getTimeCreated();
+        Account result = new Account(id, username, email, password, dt);
+
+        return new GetAccountResponse(result);
     }
 }

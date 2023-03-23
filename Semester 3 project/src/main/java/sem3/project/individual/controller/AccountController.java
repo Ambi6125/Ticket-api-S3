@@ -10,8 +10,11 @@ import sem3.project.individual.business.DeleteAccountsFunctionality;
 import sem3.project.individual.business.GetAccountsFunctionality;
 import sem3.project.individual.business.UpdateAccountFunctionality;
 import sem3.project.individual.domain.accounts.*;
+import sem3.project.individual.misc.NotImplementedException;
+import sem3.project.individual.misc.UnexpectedResultException;
 
 import java.net.http.HttpResponse;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -56,7 +59,24 @@ public class AccountController
     @PutMapping
     public ResponseEntity<UpdateAccountResponse> updateAccount(@RequestBody UpdateAccountRequest request)
     {
-        UpdateAccountResponse response = updateAccountFunctionality.update(request);
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        UpdateAccountResponse response;
+        try
+        {
+            response = updateAccountFunctionality.update(request);
+        }
+        catch(NoSuchElementException notFound)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        catch(UnexpectedResultException unexpected)
+        {
+            return ResponseEntity.badRequest().build();
+        }
+        catch(RuntimeException other)
+        {
+            return ResponseEntity.internalServerError().build();
+        }
+
+        return ResponseEntity.ok().body(response);
     }
 }

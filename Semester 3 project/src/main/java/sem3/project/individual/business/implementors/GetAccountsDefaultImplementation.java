@@ -17,6 +17,7 @@ import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service @AllArgsConstructor
 public class GetAccountsDefaultImplementation implements GetAccountsFunctionality//How else would I implement this lmao
@@ -44,7 +45,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         return responseAccounts;
     }
 
-    @Override
+    @Override @SneakyThrows
     public GetAccountResponse get(String username)
     {
         AccountEntity response;
@@ -52,7 +53,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         {
             response = repo.get(username);
         }
-        catch (UnexpectedResultException e)
+        catch (NoSuchElementException notFound)
         {
             return null;
         }

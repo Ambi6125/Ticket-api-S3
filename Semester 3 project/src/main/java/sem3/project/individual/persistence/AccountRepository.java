@@ -7,6 +7,7 @@ import sem3.project.individual.misc.UnexpectedResultException;
 import sem3.project.individual.persistence.entity.AccountEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AccountRepository
 {
@@ -15,6 +16,8 @@ public interface AccountRepository
     AccountEntity create(AccountEntity account);
     List<AccountEntity> getAll();
     void delete(int id);
-    UpdateAccountResponse update(AccountEntity request);
+    UpdateAccountResponse update(AccountEntity account);
     AccountEntity get(String username) throws UnexpectedResultException;
+
+    Optional<AccountEntity> getById(int id);
 }

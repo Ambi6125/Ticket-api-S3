@@ -1,7 +1,6 @@
 package sem3.project.individual.persistence.entity;
 
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
 

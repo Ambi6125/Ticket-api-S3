@@ -1,5 +1,6 @@
 package sem3.project.individual.persistence.implementors.accounts;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Repository;
 import sem3.project.individual.domain.accounts.Account;
 import sem3.project.individual.domain.accounts.UpdateAccountRequest;
@@ -8,10 +9,7 @@ import sem3.project.individual.misc.UnexpectedResultException;
 import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountEntity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -50,44 +48,44 @@ public class RAMAccountRepo implements AccountRepository {
         return account;
     }
 
+    private boolean emailTaken(String email)
+    {
+        return allAccounts.stream().anyMatch(x -> x.getEmail().equals(email));
+    }
 
     @Override
-    public UpdateAccountResponse update(AccountEntity account)
+    public UpdateAccountResponse update(AccountEntity account) throws NoSuchElementException
     {
-       AccountEntity target;
+        var resultsList = allAccounts.stream().filter(x -> x.getId() == account.getId()).toList();
 
-       try
-       {
-           target = allAccounts.stream()
-                   .filter(x -> x.getId() == account.getId())
-                   .findFirst()
-                   .orElseThrow(NoSuchElementException::new);
+        if(resultsList.size() > 1)
+        {
+            throw new UnexpectedResultException("More than 1 result found.");
+        }
 
-       }
-       catch (NoSuchElementException notFound)
-       {
-           return new UpdateAccountResponse(false, "Account not found.");
-       }
+        AccountEntity target = resultsList.stream()
+                .findFirst()
+                .orElseThrow(NoSuchElementException::new);
 
-       int valuesChanged = 0;
+        int valuesChanged = 0;
 
-       if(!account.getUsername().equals(target.getUsername()))
-       {
-           target.setUsername(account.getUsername());
-           valuesChanged++;
-       }
-       if(!account.getPassword().equals(target.getPassword()))
-       {
-           target.setPassword(account.getPassword());
-           valuesChanged++;
-       }
-       if(!account.getEmail().equals(target.getEmail()))
-       {
-           target.setEmail(account.getEmail());
-           valuesChanged++;
-       }
+        if(!account.getUsername().equals(target.getUsername()))
+        {
+            target.setUsername(account.getUsername());
+            valuesChanged++;
+        }
+        if(!account.getPassword().equals(target.getPassword()))
+        {
+            target.setPassword(account.getPassword());
+            valuesChanged++;
+        }
+        if(!account.getEmail().equals(target.getEmail()))
+        {
+            target.setEmail(account.getEmail());
+            valuesChanged++;
+        }
 
-       return new UpdateAccountResponse(true, "Account updated");
+        return new UpdateAccountResponse(true, valuesChanged + " changed");
     }
 
     @Override
@@ -96,9 +94,9 @@ public class RAMAccountRepo implements AccountRepository {
         return Collections.unmodifiableList(allAccounts);
     }
 
-    public AccountEntity getById(int id)
+    public Optional<AccountEntity> getById(int id)
     {
-        return allAccounts.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+        return allAccounts.stream().filter(x -> x.getId() == id).findFirst();
     }
     @Override
     public void delete(int id)

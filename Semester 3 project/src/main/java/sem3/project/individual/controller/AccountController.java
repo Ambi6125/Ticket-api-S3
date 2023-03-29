@@ -12,14 +12,13 @@ import sem3.project.individual.business.UpdateAccountFunctionality;
 import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.misc.NotImplementedException;
 import sem3.project.individual.misc.UnexpectedResultException;
-
-import java.net.http.HttpResponse;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/accounts")
 @AllArgsConstructor
+@CrossOrigin("http://localhost:3000/")
 public class AccountController
 {
     private final CreateAccountFunctionality createFunctionality;

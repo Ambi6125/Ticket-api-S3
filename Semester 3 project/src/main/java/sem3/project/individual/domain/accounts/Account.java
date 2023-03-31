@@ -14,6 +14,5 @@ public class Account
     private final int id;
     private String username;
     private String email;
-    private String password;
     private final LocalDateTime timeCreated;
 }

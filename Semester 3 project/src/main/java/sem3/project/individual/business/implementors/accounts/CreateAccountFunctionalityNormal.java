@@ -1,4 +1,4 @@
-package sem3.project.individual.business.implementors;
+package sem3.project.individual.business.implementors.accounts;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

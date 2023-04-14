@@ -16,5 +16,4 @@ public class Account
 
     private String username;
     private String email;
-    private final LocalDateTime timeCreated;
 }

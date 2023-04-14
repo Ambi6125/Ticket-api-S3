@@ -32,7 +32,6 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
     {
         AccountEntity newAcc = AccountEntity.builder()
                 .username(request.getUsername())
-                .timeCreated(LocalDateTime.now())
                 .password(request.getPassword())
                 .email(request.getEmail())
                 .build();

@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.List;
+
 @Getter
 @Builder
 public class Artist
@@ -15,6 +18,8 @@ public class Artist
     @Setter
     private String description;
 
+    private List<String> genres;
+
 
     public void setName(String newName) {
         if (newName.isEmpty() || newName.isBlank())
@@ -22,5 +27,10 @@ public class Artist
             throw new IllegalArgumentException("New name contains no characters.");
         }
         name = newName;
+    }
+
+    public List<String> getGenres()
+    {
+        return Collections.unmodifiableList(genres);
     }
 }

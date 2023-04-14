@@ -36,9 +36,8 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
             String username = v.getUsername();
             String email = v.getEmail();
             String password = v.getPassword();
-            LocalDateTime time = v.getTimeCreated();
 
-            accounts.add(new Account(id, username, email, time));
+            accounts.add(new Account(id, username, email));
         }
 
         responseAccounts.setAccounts(accounts);
@@ -61,8 +60,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         int id = response.getId();
         String email = response.getEmail();
         String password = response.getPassword();
-        LocalDateTime dt = response.getTimeCreated();
-        Account result = new Account(id, username, email, dt);
+        Account result = new Account(id, username, email);
 
         return new GetAccountResponse(result);
     }

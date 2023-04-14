@@ -13,5 +13,4 @@ public class AccountEntity
     private String username;
     private String email;
     private String password;
-    private final LocalDateTime timeCreated;
 }

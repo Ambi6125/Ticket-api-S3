@@ -29,6 +29,14 @@ public class Artist
         name = newName;
     }
 
+    public boolean equals(Object other)
+    {
+        if (other instanceof Artist a)
+        {
+            return id == a.id;
+        }
+        else return super.equals(other);
+    }
     public List<String> getGenres()
     {
         return Collections.unmodifiableList(genres);

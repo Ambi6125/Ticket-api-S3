@@ -16,23 +16,28 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "accounts")
 public class AccountEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     @NotBlank
     @Min(4) @Max(20)
     private String username;
+
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
+    @Min(5) @Max(60)
     private String email;
+
     @NotNull
     @NotBlank
     @Min(8) @Max(200)
     private String password;
 
-    //TODO: Is every ticket unique? Then use many to one. Not sure if it is. You could also just have a ticket and associated quantity.
-
-    private List<TicketEntity> sellingTickets;
+    @OneToMany
+    @JoinColumn(name = "tickets_id")
+    private List<TicketEntity> purchasedTickets;
 }

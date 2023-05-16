@@ -21,4 +21,6 @@ public class TicketEntity
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
 }

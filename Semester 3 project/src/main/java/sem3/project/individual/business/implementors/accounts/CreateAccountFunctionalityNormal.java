@@ -9,8 +9,6 @@ import sem3.project.individual.domain.accounts.CreateAccountResponse;
 import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountEntity;
 
-import java.time.LocalDateTime;
-
 @Service @AllArgsConstructor
 public class CreateAccountFunctionalityNormal implements CreateAccountFunctionality
 {
@@ -19,7 +17,7 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
     @Override
     public CreateAccountResponse createAccount(CreateAccountRequest request)
     {
-        if(repo.usernameExists(request.getUsername()))
+        if(repo.existsByUsername(request.getUsername()))
         {
             throw new UsernameTakenException();
         }

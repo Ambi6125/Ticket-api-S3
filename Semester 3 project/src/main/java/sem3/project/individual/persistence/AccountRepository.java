@@ -1,7 +1,7 @@
 package sem3.project.individual.persistence;
 
 
-import sem3.project.individual.domain.accounts.UpdateAccountRequest;
+import org.springframework.data.jpa.repository.JpaRepository;
 import sem3.project.individual.domain.accounts.UpdateAccountResponse;
 import sem3.project.individual.misc.UnexpectedResultException;
 import sem3.project.individual.persistence.entity.AccountEntity;
@@ -9,15 +9,8 @@ import sem3.project.individual.persistence.entity.AccountEntity;
 import java.util.List;
 import java.util.Optional;
 
-public interface AccountRepository
+public interface AccountRepository extends JpaRepository<AccountEntity, Long>
 {
-    boolean idExists(int id);
-    boolean usernameExists(String username);
-    AccountEntity create(AccountEntity account);
-    List<AccountEntity> getAll();
-    void delete(int id);
-    UpdateAccountResponse update(AccountEntity account);
-    AccountEntity get(String username) throws UnexpectedResultException;
-
-    Optional<AccountEntity> getById(int id);
+    AccountEntity findByUsername(String username);
+    AccountEntity findByEmailContainingIgnoreCase(String email);
 }

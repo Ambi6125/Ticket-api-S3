@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 public class Artist
 {
-    private final int id;
+    private final Long id;
     private String name;
 
     @Setter

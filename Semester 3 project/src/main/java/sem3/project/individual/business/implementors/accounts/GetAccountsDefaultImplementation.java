@@ -6,6 +6,7 @@ import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.GetAccountsFunctionality;
 import sem3.project.individual.domain.accounts.Account;
+import sem3.project.individual.domain.accounts.AccountConverter;
 import sem3.project.individual.domain.accounts.GetAccountResponse;
 import sem3.project.individual.domain.accounts.GetAllAccountsResponse;
 import sem3.project.individual.misc.NotImplementedException;
@@ -27,40 +28,31 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
     @Override
     public GetAllAccountsResponse getAllAccounts()
     {
-        var result = repo.getAll();
+        List<AccountEntity> result = repo.findAll();
         final GetAllAccountsResponse responseAccounts = new GetAllAccountsResponse();
-        List<Account> accounts = new ArrayList<>();
-        for(var v : result)
-        {
-            int id = v.getId();
-            String username = v.getUsername();
-            String email = v.getEmail();
-            String password = v.getPassword();
 
-            accounts.add(new Account(id, username, email));
-        }
+        //Convert all persistence entities to domain instances
+        List<Account> accounts = result.stream().map(AccountConverter::toDomain).toList();
 
         responseAccounts.setAccounts(accounts);
         return responseAccounts;
     }
 
     @Override @SneakyThrows
-    public GetAccountResponse get(String username)
+    public GetAccountResponse getByUsername(String username)
     {
         AccountEntity response;
         try
         {
-            response = repo.get(username);
+            response = repo.findByUsername(username);
         }
         catch (NoSuchElementException notFound)
         {
             return null;
         }
 
-        int id = response.getId();
-        String email = response.getEmail();
-        String password = response.getPassword();
-        Account result = new Account(id, username, email);
+
+        Account result = AccountConverter.toDomain(response);
 
         return new GetAccountResponse(result);
     }

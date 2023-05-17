@@ -12,8 +12,9 @@ import java.util.Date;
 @Getter
 public class Account
 {
-    private final int id;
+    private final Long id;
 
     private String username;
+    private String password;
     private String email;
 }

@@ -22,7 +22,6 @@ public class CreateArtistFuncDefault implements CreateArtistFunctionality
             return ArtistEntity.builder()
                     .name(createRequest.getName())
                     .description(createRequest.getDescription())
-                    .genres(createRequest.getGenres())
                     .build();
         }
 

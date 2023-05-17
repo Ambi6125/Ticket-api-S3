@@ -11,6 +11,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -28,6 +30,9 @@ public class EventEntity
     @NotBlank
     @Min(2) @Max(40)
     private String title;
+
+    @NotNull
+    private Instant moment;
 
     @NotNull
     @NotBlank

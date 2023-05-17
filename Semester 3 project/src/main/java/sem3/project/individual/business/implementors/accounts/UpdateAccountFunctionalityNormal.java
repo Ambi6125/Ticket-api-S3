@@ -1,11 +1,13 @@
 package sem3.project.individual.business.implementors.accounts;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.UpdateAccountFunctionality;
 import sem3.project.individual.domain.accounts.Account;
 import sem3.project.individual.domain.accounts.UpdateAccountRequest;
 import sem3.project.individual.domain.accounts.UpdateAccountResponse;
+import sem3.project.individual.misc.NotImplementedException;
 import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountEntity;
 
@@ -29,8 +31,10 @@ public class UpdateAccountFunctionalityNormal implements UpdateAccountFunctional
         return saveChanges(accountData);
     }
 
+    @SneakyThrows
     private UpdateAccountResponse saveChanges(AccountEntity account)
     {
-        return repo.update(account);
+        //TODO: Update implementation lacking
+        throw new NotImplementedException("Unsure how to update");
     }
 }

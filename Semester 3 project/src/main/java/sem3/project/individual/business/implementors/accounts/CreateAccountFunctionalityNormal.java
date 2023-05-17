@@ -33,6 +33,6 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
                 .password(request.getPassword())
                 .email(request.getEmail())
                 .build();
-        return repo.create(newAcc);
+        return repo.save(newAcc);
     }
 }

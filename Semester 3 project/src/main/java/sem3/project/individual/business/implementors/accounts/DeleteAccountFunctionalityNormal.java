@@ -11,8 +11,8 @@ public class DeleteAccountFunctionalityNormal implements DeleteAccountsFunctiona
     private final AccountRepository repo;
 
     @Override
-    public void deleteAccount(int id)
+    public void deleteAccount(Long id)
     {
-        repo.delete(id);
+        repo.deleteById(id);
     }
 }

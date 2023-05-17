@@ -10,7 +10,6 @@ import sem3.project.individual.business.DeleteAccountsFunctionality;
 import sem3.project.individual.business.GetAccountsFunctionality;
 import sem3.project.individual.business.UpdateAccountFunctionality;
 import sem3.project.individual.domain.accounts.*;
-import sem3.project.individual.misc.NotImplementedException;
 import sem3.project.individual.misc.UnexpectedResultException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -41,7 +40,7 @@ public class AccountController
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id)
+    public ResponseEntity<Void> delete(@PathVariable Long id)
     {
         deleteAccountsFunctionality.deleteAccount(id);
         return ResponseEntity.noContent().build();
@@ -50,7 +49,7 @@ public class AccountController
     @GetMapping("/{username}")
     public ResponseEntity<GetAccountResponse> getAccount(@PathVariable String username)
     {
-        Optional<GetAccountResponse> responseOptional = Optional.of(getAccountFunctionality.get(username));
+        Optional<GetAccountResponse> responseOptional = Optional.of(getAccountFunctionality.getByUsername(username));
 
         return responseOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }

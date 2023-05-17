@@ -7,5 +7,5 @@ import sem3.project.individual.domain.accounts.GetAllAccountsResponse;
 public interface GetAccountsFunctionality
 {
     GetAllAccountsResponse getAllAccounts();
-    GetAccountResponse get(String username);
+    GetAccountResponse getByUsername(String username);
 }

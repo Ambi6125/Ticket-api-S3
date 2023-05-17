@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class GetAllArtistsResponse
 {
     private List<Artist> artists;
@@ -18,14 +19,5 @@ public class GetAllArtistsResponse
         return Collections.unmodifiableList(artists);
     }
 
-    public GetAllArtistsResponse(List<ArtistEntity> artists)
-    {
-        this.artists = artists.stream().map(artistEntity -> {
-                    return new Artist(artistEntity.getId(),
-                            artistEntity.getName(),
-                            artistEntity.getDescription(),
-                            artistEntity.getGenres());
-        })
-                .collect(Collectors.toList());
-    }
+
 }

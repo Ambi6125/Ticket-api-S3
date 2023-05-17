@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreateAccountResponse
 {
-    private int id;
+    private Long id;
 }

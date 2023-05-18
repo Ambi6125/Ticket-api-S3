@@ -19,7 +19,7 @@ public class EventController
     private GetEventFunctionality eventGetter;
 
     @PostMapping
-    public ResponseEntity<Object> createEvent(CreateEventRequest request)
+    public ResponseEntity<Object> createEvent(@RequestBody CreateEventRequest request)
     {
         try
         {

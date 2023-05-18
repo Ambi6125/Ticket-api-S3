@@ -24,19 +24,23 @@ public class EventEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
     @NotBlank
-    @Min(2) @Max(40)
+    @Min(2) @Max(50)
+    @Column(name = "title")
     private String title;
 
     @NotNull
+    @Column(name = "moment")
     private Instant moment;
 
     @NotNull
     @NotBlank
-    @Min(4) @Max(50)
+    @Min(4) @Max(60)
+    @Column(name = "location")
     private String location;
 
     @Min(50)

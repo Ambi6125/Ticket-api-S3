@@ -21,23 +21,26 @@ public class AccountEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
     @NotBlank
-    @Min(4) @Max(20)
+    @Min(4) @Max(50)
+    @Column(name = "username")
     private String username;
 
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
     @Min(5) @Max(60)
+    @Column(name = "email")
     private String email;
 
     @NotNull
     @NotBlank
     @Min(8) @Max(200)
+    @Column(name = "password")
     private String password;
 
-    @OneToMany
-    @JoinColumn(name = "tickets_id")
+    @OneToMany(mappedBy = "account")
     private List<TicketEntity> purchasedTickets;
 }

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import sem3.project.individual.domain.accounts.Account;
-import sem3.project.individual.domain.artists.Artist;
+import sem3.project.individual.domain.events.Event;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +15,5 @@ import java.time.LocalDateTime;
 public class Ticket
 {
     private int id;
-    //Private Event event
-    private Artist artist;
+    private Event event;
 }

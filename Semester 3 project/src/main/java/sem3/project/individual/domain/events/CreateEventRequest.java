@@ -1,4 +1,4 @@
-package sem3.project.individual.business;
+package sem3.project.individual.domain.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,4 +12,6 @@ public class CreateEventRequest
     private String title;
     private String location;
     private Instant moment;
+
+    private int totalTickets;
 }

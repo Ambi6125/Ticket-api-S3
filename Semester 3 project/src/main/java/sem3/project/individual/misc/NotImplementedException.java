@@ -6,7 +6,7 @@ import javax.swing.text.html.Option;
 import java.util.Optional;
 
 
-public class NotImplementedException extends Exception
+public class NotImplementedException extends RuntimeException
 {
     private Optional<String> message;
 

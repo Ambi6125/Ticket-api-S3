@@ -17,5 +17,15 @@ public final class EventConverter
                 .build();
     }
 
-
+    public static <T extends CreateEventRequest> EventEntity creationToEntity(T request)
+    {
+        int ticketCap = request.getTotalTickets();
+        return EventEntity.builder()
+                .title(request.getTitle())
+                .location(request.getLocation())
+                .moment(request.getMoment())
+                .totalTickets(ticketCap)
+                .remainingTickets(ticketCap)
+                .build();
+    }
 }

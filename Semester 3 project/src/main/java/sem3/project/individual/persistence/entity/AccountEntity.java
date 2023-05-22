@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -26,18 +27,18 @@ public class AccountEntity
 
     @NotNull
     @NotBlank
-    @Min(4) @Max(50)
+    @Length(min = 4, max = 50)
     @Column(name = "username")
     private String username;
 
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")
-    @Min(5) @Max(60)
+    @Length(min = 5, max = 30)
     @Column(name = "email")
     private String email;
 
     @NotNull
     @NotBlank
-    @Min(8) @Max(200)
+    @Length(min = 8, max = 255)
     @Column(name = "password")
     private String password;
 

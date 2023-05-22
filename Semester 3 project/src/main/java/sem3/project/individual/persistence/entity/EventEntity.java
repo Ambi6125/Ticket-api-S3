@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import sem3.project.individual.domain.tickets.Ticket;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class EventEntity
 
     @NotNull
     @NotBlank
-    @Min(2) @Max(50)
+    @Length(min = 2, max = 50)
     @Column(name = "title")
     private String title;
 
@@ -39,14 +40,16 @@ public class EventEntity
 
     @NotNull
     @NotBlank
-    @Min(4) @Max(60)
+    @Length(min = 4, max = 150)
     @Column(name = "location")
     private String location;
 
-    @Min(50)
+    @Min(1)
+    @Column(name = "totalTickets")
     private int totalTickets;
 
-    @Min(0)
+    @Min(1)
+    @Column(name = "remainingTickets")
     private int remainingTickets;
 
 }

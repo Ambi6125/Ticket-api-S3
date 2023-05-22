@@ -8,7 +8,8 @@ import java.time.Instant;
 
 public class InstantDeserializer extends JsonDeserializer<Instant> {
     @Override
-    public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException {
+    public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException
+    {
         String timestampString = jsonParser.readValueAs(String.class);
         return Instant.parse(timestampString);
     }

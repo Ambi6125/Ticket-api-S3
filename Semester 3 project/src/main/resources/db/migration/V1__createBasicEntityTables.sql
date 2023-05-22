@@ -15,8 +15,8 @@ CREATE TABLE events(
     title varchar(50) not null unique,
     location varchar(60) not null,
     moment datetime not null,
-    totalTickets int not null,
-    remainingTickets int not null,
+    total_tickets int not null,
+    remaining_tickets int not null,
 
     constraint timeLocationClause unique(location, moment)
 );

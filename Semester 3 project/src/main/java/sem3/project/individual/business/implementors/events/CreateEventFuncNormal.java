@@ -25,7 +25,7 @@ public class CreateEventFuncNormal implements CreateEventFunctionality
     @Override
     public CreateEventResponse create(CreateEventRequest request) throws TimeLocationOverlapException
     {
-        if(repo.existsByLocationIgnoreCaseAndLocation(request.getLocation(), request.getMoment()))
+        if(repo.existsByLocationIgnoreCaseAndMoment(request.getLocation(), request.getMoment()))
         {
             throw new TimeLocationOverlapException();
         }

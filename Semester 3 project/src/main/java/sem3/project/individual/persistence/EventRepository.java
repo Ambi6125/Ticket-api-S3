@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<EventEntity, Long>
 {
-    boolean existsByLocationIgnoreCaseAndLocation(String location, Instant moment);
+    boolean existsByLocationIgnoreCaseAndMoment(String location, Instant moment);
     Optional<EventEntity> findByTitleIgnoreCase(String title);
 }

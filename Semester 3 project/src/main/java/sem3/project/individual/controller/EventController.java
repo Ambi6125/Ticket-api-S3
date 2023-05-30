@@ -43,9 +43,17 @@ public class EventController
             return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{name}")
     public ResponseEntity<GetEventResponse> getEventByName(@PathVariable String name)
     {
         var response = eventGetter.getByTitle(name);
-        throw new NotImplementedException();
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/location/{location}")
+    public ResponseEntity<GetEventResponse> getEventByLocation(@PathVariable String location)
+    {
+        var response = eventGetter.getByLocation(location);
+        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

@@ -17,7 +17,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/accounts")
 @AllArgsConstructor
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = {"Accept", "Content-Type"})
 public class AccountController
 {
     private final CreateAccountFunctionality createFunctionality;

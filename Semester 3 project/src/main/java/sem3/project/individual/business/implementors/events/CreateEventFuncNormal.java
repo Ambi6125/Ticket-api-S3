@@ -10,6 +10,8 @@ import sem3.project.individual.domain.events.EventConverter;
 import sem3.project.individual.persistence.EventRepository;
 import sem3.project.individual.persistence.entity.EventEntity;
 
+import javax.transaction.Transactional;
+
 @Service @AllArgsConstructor
 public class CreateEventFuncNormal implements CreateEventFunctionality
 {
@@ -23,6 +25,7 @@ public class CreateEventFuncNormal implements CreateEventFunctionality
     }
 
     @Override
+    @Transactional
     public CreateEventResponse create(CreateEventRequest request) throws TimeLocationOverlapException
     {
         if(repo.existsByLocationIgnoreCaseAndMoment(request.getLocation(), request.getMoment()))

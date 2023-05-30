@@ -9,6 +9,9 @@ import sem3.project.individual.business.GetEventFunctionality;
 import sem3.project.individual.business.exceptions.TimeLocationOverlapException;
 import sem3.project.individual.domain.events.CreateEventRequest;
 import sem3.project.individual.domain.events.GetEventResponse;
+import sem3.project.individual.misc.NotImplementedException;
+
+import javax.transaction.Transactional;
 
 @RestController
 @AllArgsConstructor
@@ -38,5 +41,11 @@ public class EventController
             var response = eventGetter.getById(id);
 
             return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    public ResponseEntity<GetEventResponse> getEventByName(@PathVariable String name)
+    {
+        var response = eventGetter.getByTitle(name);
+        throw new NotImplementedException();
     }
 }

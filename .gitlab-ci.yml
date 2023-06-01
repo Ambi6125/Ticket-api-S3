@@ -1,7 +1,6 @@
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
 
-
 stages:
   - build
   - test
@@ -10,11 +9,13 @@ stages:
 build:
   stage: build
   script:
+    - cd 'Semester 3 project'
     - ./gradlew assemble
 
 test:
   stage: test
   script:
+    - cd 'Semester 3 project'
     - ./gradlew test
 
 sonar:

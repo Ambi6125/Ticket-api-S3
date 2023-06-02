@@ -1,6 +1,7 @@
 package sem3.project.individual.business.implementors.accounts;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.exceptions.UsernameTakenException;
@@ -13,6 +14,7 @@ import sem3.project.individual.persistence.entity.AccountEntity;
 public class CreateAccountFunctionalityNormal implements CreateAccountFunctionality
 {
     private final AccountRepository repo;
+    private final PasswordEncoder encoder;
 
     @Override
     public CreateAccountResponse createAccount(CreateAccountRequest request)
@@ -28,9 +30,10 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
 
     private AccountEntity saveAccount(CreateAccountRequest request)
     {
+        String encodedPassword = encoder.encode(request.getPassword());
         AccountEntity newAcc = AccountEntity.builder()
                 .username(request.getUsername())
-                .password(request.getPassword())
+                .password(encodedPassword)
                 .email(request.getEmail())
                 .build();
         return repo.save(newAcc);

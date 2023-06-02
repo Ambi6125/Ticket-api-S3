@@ -9,6 +9,7 @@ import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.DeleteAccountsFunctionality;
 import sem3.project.individual.business.GetAccountsFunctionality;
 import sem3.project.individual.business.UpdateAccountFunctionality;
+import sem3.project.individual.configuration.security.auth.RequireAuthentication;
 import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.misc.UnexpectedResultException;
 import java.util.NoSuchElementException;
@@ -39,14 +40,14 @@ public class AccountController
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("{id}") @RequireAuthentication
     public ResponseEntity<Void> delete(@PathVariable Long id)
     {
         deleteAccountsFunctionality.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/{username}") @RequireAuthentication
     public ResponseEntity<GetAccountResponse> getAccount(@PathVariable String username)
     {
         Optional<GetAccountResponse> responseOptional = Optional.of(getAccountFunctionality.getByUsername(username));
@@ -54,7 +55,7 @@ public class AccountController
         return responseOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
     }
 
-    @PutMapping
+    @PutMapping @RequireAuthentication
     public ResponseEntity<UpdateAccountResponse> updateAccount(@RequestBody UpdateAccountRequest request)
     {
         UpdateAccountResponse response;

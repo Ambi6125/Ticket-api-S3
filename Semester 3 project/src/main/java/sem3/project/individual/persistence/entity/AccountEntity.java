@@ -6,11 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import sem3.project.individual.domain.accounts.AccountRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -44,4 +46,8 @@ public class AccountEntity
 
     @OneToMany(mappedBy = "account")
     private List<TicketEntity> purchasedTickets;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id")
+    private Set<AccountRoleEntity> roles;
 }

@@ -9,9 +9,12 @@ import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.DeleteAccountsFunctionality;
 import sem3.project.individual.business.GetAccountsFunctionality;
 import sem3.project.individual.business.UpdateAccountFunctionality;
+import sem3.project.individual.business.exceptions.InvalidTokenException;
 import sem3.project.individual.configuration.security.auth.RequireAuthentication;
 import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.misc.UnexpectedResultException;
+
+import javax.annotation.security.RolesAllowed;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -47,15 +50,22 @@ public class AccountController
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{username}") @RequireAuthentication
+    @GetMapping("/{username}") @RequireAuthentication @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<GetAccountResponse> getAccount(@PathVariable String username)
     {
-        Optional<GetAccountResponse> responseOptional = Optional.of(getAccountFunctionality.getByUsername(username));
+        try
+        {
+            Optional<GetAccountResponse> responseOptional = Optional.of(getAccountFunctionality.getByUsername(username));
 
-        return responseOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+            return responseOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.noContent().build());
+        }
+        catch (InvalidTokenException tokenException)
+        {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
-    @PutMapping @RequireAuthentication
+    @PutMapping @RequireAuthentication @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<UpdateAccountResponse> updateAccount(@RequestBody UpdateAccountRequest request)
     {
         UpdateAccountResponse response;

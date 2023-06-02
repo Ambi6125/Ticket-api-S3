@@ -5,10 +5,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.CreateAccountFunctionality;
 import sem3.project.individual.business.exceptions.UsernameTakenException;
+import sem3.project.individual.domain.accounts.AccountRole;
 import sem3.project.individual.domain.accounts.CreateAccountRequest;
 import sem3.project.individual.domain.accounts.CreateAccountResponse;
 import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountEntity;
+import sem3.project.individual.persistence.entity.AccountRoleEntity;
+
+import java.util.Set;
 
 @Service @AllArgsConstructor
 public class CreateAccountFunctionalityNormal implements CreateAccountFunctionality
@@ -36,6 +40,12 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
                 .password(encodedPassword)
                 .email(request.getEmail())
                 .build();
+        newAcc.setRoles(Set.of(
+                AccountRoleEntity.builder()
+                        .account(newAcc)
+                        .role(AccountRole.NORMAL)
+                        .build()
+        ));
         return repo.save(newAcc);
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -17,4 +18,6 @@ public class Account
     private String username;
     private String password;
     private String email;
+
+    private Set<AccountRole> roles;
 }

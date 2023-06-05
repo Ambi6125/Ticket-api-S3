@@ -9,9 +9,10 @@ import sem3.project.individual.business.GetEventFunctionality;
 import sem3.project.individual.business.exceptions.TimeLocationOverlapException;
 import sem3.project.individual.domain.events.CreateEventRequest;
 import sem3.project.individual.domain.events.GetEventResponse;
+import sem3.project.individual.domain.events.GetMultipleEventsResponse;
 import sem3.project.individual.misc.NotImplementedException;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -51,9 +52,20 @@ public class EventController
     }
 
     @GetMapping("/location/{location}")
-    public ResponseEntity<GetEventResponse> getEventByLocation(@PathVariable String location)
+    public ResponseEntity<GetMultipleEventsResponse> getEventByLocation(@PathVariable String location)
     {
-        var response = eventGetter.getByLocation(location);
-        return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        throw new NotImplementedException();
+    }
+
+    @GetMapping("/search/{searchQuery}")
+    public ResponseEntity<GetMultipleEventsResponse> getEventsByNameSearch(@PathVariable String searchQuery)
+    {
+        Optional<GetMultipleEventsResponse> response = eventGetter.getByStringSearch(searchQuery);
+
+        if(response.isPresent())
+        {
+            return  ResponseEntity.ok(response.get());
+        }
+        else return ResponseEntity.noContent().build();
     }
 }

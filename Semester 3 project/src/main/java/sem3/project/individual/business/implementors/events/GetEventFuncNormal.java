@@ -6,6 +6,7 @@ import sem3.project.individual.business.GetEventFunctionality;
 import sem3.project.individual.domain.events.Event;
 import sem3.project.individual.domain.events.EventConverter;
 import sem3.project.individual.domain.events.GetEventResponse;
+import sem3.project.individual.domain.events.GetMultipleEventsResponse;
 import sem3.project.individual.misc.NotImplementedException;
 import sem3.project.individual.persistence.EventRepository;
 
@@ -33,6 +34,18 @@ public class GetEventFuncNormal implements GetEventFunctionality
     @Override
     public Optional<GetEventResponse> getByLocation(String location) {
         throw new NotImplementedException();
+    }
+
+    @Override
+    public Optional<GetMultipleEventsResponse> getByStringSearch(String query)
+    {
+        var response = repo.findAllByTitleContainingIgnoreCaseOrLocationContainingIgnoreCase(query);
+        if(response.size() == 0)
+        {
+            return Optional.empty();
+        }
+
+        return Optional.of(new GetMultipleEventsResponse(response.stream().map(EventConverter::toDomain).toList()));
     }
 
     @Override

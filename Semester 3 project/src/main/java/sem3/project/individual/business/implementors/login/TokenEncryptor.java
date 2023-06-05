@@ -61,7 +61,7 @@ public class TokenEncryptor implements AccessTokenEncoder, AccessTokenDecoder
     public String encode(AccessToken token)
     {
         Map<String, Object> claims = new HashMap<>();
-        if(CollectionUtils.isEmpty(token.getRoles()))
+        if(!CollectionUtils.isEmpty(token.getRoles()))
         {
             claims.put("roles", token.getRoles());
         }

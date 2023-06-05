@@ -7,7 +7,7 @@ import sem3.project.individual.domain.login.LoginRequest;
 import sem3.project.individual.domain.login.LoginResponse;
 import sem3.project.individual.persistence.AccountRepository;
 
-@Service
+
 public interface LoginFunctionality
 {
     LoginResponse login(LoginRequest request) throws InvalidCredentialsException;

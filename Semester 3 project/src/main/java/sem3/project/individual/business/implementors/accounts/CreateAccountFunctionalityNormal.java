@@ -43,7 +43,7 @@ public class CreateAccountFunctionalityNormal implements CreateAccountFunctional
         newAcc.setRoles(Set.of(
                 AccountRoleEntity.builder()
                         .account(newAcc)
-                        .role(AccountRole.NORMAL)
+                        .role(AccountRole.USER)
                         .build()
         ));
         return repo.save(newAcc);

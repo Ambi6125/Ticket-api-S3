@@ -10,7 +10,6 @@ import sem3.project.individual.domain.events.GetMultipleEventsResponse;
 import sem3.project.individual.misc.NotImplementedException;
 import sem3.project.individual.persistence.EventRepository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service  @AllArgsConstructor
@@ -39,7 +38,7 @@ public class GetEventFuncNormal implements GetEventFunctionality
     @Override
     public Optional<GetMultipleEventsResponse> getByStringSearch(String query)
     {
-        var response = repo.findAllByTitleContainingIgnoreCaseOrLocationContainingIgnoreCase(query);
+        var response = repo.findBySearchQuery(query);
         if(response.size() == 0)
         {
             return Optional.empty();

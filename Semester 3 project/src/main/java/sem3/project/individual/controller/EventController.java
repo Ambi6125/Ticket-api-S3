@@ -17,6 +17,7 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/events")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = {"Accept", "Content-Type"})
 public class EventController
 {
     private CreateEventFunctionality eventCreator;

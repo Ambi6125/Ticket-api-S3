@@ -12,6 +12,7 @@ import sem3.project.individual.domain.events.GetEventResponse;
 import sem3.project.individual.domain.events.GetMultipleEventsResponse;
 import sem3.project.individual.misc.NotImplementedException;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @RestController
@@ -67,6 +68,6 @@ public class EventController
         {
             return  ResponseEntity.ok(response.get());
         }
-        else return ResponseEntity.noContent().build();
+        else return ResponseEntity.ok(new GetMultipleEventsResponse(Collections.emptyList()));
     }
 }

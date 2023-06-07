@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.GetAccountsFunctionality;
-import sem3.project.individual.business.exceptions.InvalidCredentialsException;
 import sem3.project.individual.business.exceptions.InvalidTokenException;
 import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.domain.login.tokens.AccessToken;
@@ -14,11 +13,9 @@ import sem3.project.individual.persistence.entity.AccountEntity;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityNotFoundException;
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service @AllArgsConstructor
 public class GetAccountsDefaultImplementation implements GetAccountsFunctionality//How else would I implement this lmao
@@ -28,7 +25,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
 
 
     @Override
-    public GetAccountResponse getById(Long id)
+    public Optional<GetAccountResponse> getById(Long id)
     {
         AccountEntity response;
 
@@ -36,14 +33,19 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         {
             response = repo.getById(id);
         }
-        catch (EntityNotFoundException)
+        catch (EntityNotFoundException e)
         {
             return null;
         }
 
+        if(response == null)
+        {
+            return Optional.empty();
+        }
+
         Account result = MapObject.transform(response, AccountConverter::toDomain);
 
-        return new GetAccountResponse(result);
+        return Optional.of(new GetAccountResponse(result));
     }
 
 

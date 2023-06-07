@@ -39,7 +39,15 @@ public class AccountController
     @GetMapping("/{id}")
     public ResponseEntity<GetAccountResponse> getById(@PathVariable Long id)
     {
-
+        var response = getAccountFunctionality.getById(id);
+        if(response.isEmpty())
+        {
+            return ResponseEntity.notFound().build();
+        }
+        else
+        {
+            return ResponseEntity.ok(response.get());
+        }
     }
 
     @PostMapping

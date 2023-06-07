@@ -36,7 +36,7 @@ public class AccountController
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<GetAccountResponse> getById(@PathVariable Long id)
     {
         var response = getAccountFunctionality.getById(id);

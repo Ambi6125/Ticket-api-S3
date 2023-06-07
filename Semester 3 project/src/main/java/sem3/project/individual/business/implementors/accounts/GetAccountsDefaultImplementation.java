@@ -31,7 +31,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
 
         try
         {
-            response = repo.getById(id);
+            response = repo.fetchById(id);
         }
         catch (EntityNotFoundException e)
         {

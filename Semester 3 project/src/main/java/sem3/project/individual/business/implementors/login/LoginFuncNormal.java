@@ -56,6 +56,7 @@ public class LoginFuncNormal implements LoginFunctionality
         AccessToken token = AccessToken.builder()
                 .subject(account.getUsername())
                 .roles(roles)
+                .accountId(account.getId())
                 .build();
 
         return tokenEncoder.encode(token);

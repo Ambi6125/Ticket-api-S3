@@ -49,6 +49,7 @@ public class TokenEncryptor implements AccessTokenEncoder, AccessTokenDecoder
             return AccessToken.builder()
                     .subject(claims.getSubject())
                     .roles(roles)
+                    .accountId(claims.get("accountId", Long.class))
                     .build();
         }
         catch (JwtException e)
@@ -64,6 +65,11 @@ public class TokenEncryptor implements AccessTokenEncoder, AccessTokenDecoder
         if(!CollectionUtils.isEmpty(token.getRoles()))
         {
             claims.put("roles", token.getRoles());
+        }
+
+        if(token.getAccountId() != null)
+        {
+            claims.put("accountId", token.getAccountId());
         }
 
         Instant now = Instant.now();

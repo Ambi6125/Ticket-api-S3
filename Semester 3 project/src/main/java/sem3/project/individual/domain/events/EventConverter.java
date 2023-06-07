@@ -13,6 +13,8 @@ public final class EventConverter
                 .id(entity.getId())
                 .title(entity.getTitle())
                 .moment(entity.getMoment())
+                .totalTickets(entity.getTotalTickets())
+                .remainingTickets(entity.getRemainingTickets())
                 .location(entity.getLocation())
                 .build();
     }

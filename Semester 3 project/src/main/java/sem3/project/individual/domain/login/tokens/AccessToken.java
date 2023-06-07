@@ -16,7 +16,7 @@ public class AccessToken
 {
     private String subject;
     private List<String> roles;
-
+    private Long accountId;
     @JsonIgnore
     public boolean hasRole(String roleName) {
         if (roles == null) {

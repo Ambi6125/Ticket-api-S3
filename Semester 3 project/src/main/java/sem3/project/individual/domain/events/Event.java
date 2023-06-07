@@ -14,4 +14,6 @@ public class Event
     private String title;
     private String location;
     private Instant moment;
+    private int totalTickets;
+    private int remainingTickets;
 }

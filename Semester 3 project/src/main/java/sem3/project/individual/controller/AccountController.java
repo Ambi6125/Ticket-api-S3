@@ -36,6 +36,12 @@ public class AccountController
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<GetAccountResponse> getById(@PathVariable Long id)
+    {
+
+    }
+
     @PostMapping
     public ResponseEntity<CreateAccountResponse> createAccount(@RequestBody CreateAccountRequest request)
     {

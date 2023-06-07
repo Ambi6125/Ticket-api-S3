@@ -46,7 +46,7 @@ public class EventController
             return response.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/name/{name}")
     public ResponseEntity<GetEventResponse> getEventByName(@PathVariable String name)
     {
         var response = eventGetter.getByTitle(name);

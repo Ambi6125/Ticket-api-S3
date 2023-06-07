@@ -8,4 +8,5 @@ public interface GetAccountsFunctionality
 {
     GetAllAccountsResponse getAllAccounts();
     GetAccountResponse getByUsername(String username);
+    GetAccountResponse getById(Long id);
 }

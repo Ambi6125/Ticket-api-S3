@@ -8,10 +8,12 @@ import sem3.project.individual.business.exceptions.InvalidCredentialsException;
 import sem3.project.individual.business.exceptions.InvalidTokenException;
 import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.domain.login.tokens.AccessToken;
+import sem3.project.individual.misc.MapObject;
 import sem3.project.individual.persistence.AccountRepository;
 import sem3.project.individual.persistence.entity.AccountEntity;
 
 import javax.annotation.security.RolesAllowed;
+import javax.persistence.EntityNotFoundException;
 import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,18 +26,27 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
     private final AccountRepository repo;
     private AccessToken token;
 
-    @Override @RolesAllowed({"ROLE_ADMIN"})
-    public GetAllAccountsResponse getAllAccounts()
+
+    @Override
+    public GetAccountResponse getById(Long id)
     {
-        List<AccountEntity> result = repo.findAll();
-        final GetAllAccountsResponse responseAccounts = new GetAllAccountsResponse();
+        AccountEntity response;
 
-        //Convert all persistence entities to domain instances
-        List<Account> accounts = result.stream().map(AccountConverter::toDomain).toList();
+        try
+        {
+            response = repo.getById(id);
+        }
+        catch (EntityNotFoundException)
+        {
+            return null;
+        }
 
-        responseAccounts.setAccounts(accounts);
-        return responseAccounts;
+        Account result = MapObject.transform(response, AccountConverter::toDomain);
+
+        return new GetAccountResponse(result);
     }
+
+
 
     @Override @SneakyThrows
     public GetAccountResponse getByUsername(String username) throws InvalidTokenException
@@ -51,7 +62,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         }
 
 
-        Account result = AccountConverter.toDomain(response);
+        Account result = MapObject.transform(response, AccountConverter::toDomain);
 
         if(token.hasRole(AccountRole.ADMIN.name())) //TODO: If debugging; subject might not actually be username
         {
@@ -62,5 +73,18 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         }
 
         return new GetAccountResponse(result);
+    }
+
+    @Override @RolesAllowed({"ROLE_ADMIN"})
+    public GetAllAccountsResponse getAllAccounts()
+    {
+        List<AccountEntity> result = repo.findAll();
+        final GetAllAccountsResponse responseAccounts = new GetAllAccountsResponse();
+
+        //Convert all persistence entities to domain instances
+        List<Account> accounts = result.stream().map(AccountConverter::toDomain).toList();
+
+        responseAccounts.setAccounts(accounts);
+        return responseAccounts;
     }
 }

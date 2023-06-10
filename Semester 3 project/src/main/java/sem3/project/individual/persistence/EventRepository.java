@@ -22,4 +22,6 @@ public interface EventRepository extends JpaRepository<EventEntity, Long>
     @Query("SELECT e FROM EventEntity e WHERE LOWER(e.title) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(e.location) LIKE LOWER(CONCAT('%', :query, '%'))")
     List<EventEntity> findBySearchQuery(@Param("query") String query);
 
+    @Query("SELECT e FROM EventEntity e WHERE e.id = :id")
+    EventEntity fetchById(@Param("id") Long id);
 }

@@ -62,4 +62,11 @@ public class GetEventFuncNormal implements GetEventFunctionality
             return Optional.empty();
         }
     }
+
+    @Override
+    public GetMultipleEventsResponse getAll()
+    {
+        var response = repo.findAll();
+        return new GetMultipleEventsResponse(response.stream().map(EventConverter::toDomain).toList());
+    }
 }

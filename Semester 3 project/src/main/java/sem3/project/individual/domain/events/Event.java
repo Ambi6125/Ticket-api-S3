@@ -16,4 +16,14 @@ public class Event
     private Instant moment;
     private int totalTickets;
     private int remainingTickets;
+
+    public void purchaseTickets(int amount) throws IllegalArgumentException
+    {
+        if(amount < 1 || amount > remainingTickets)
+        {
+            throw new IllegalArgumentException("Amount less than 1 or more than left.");
+        }
+
+        remainingTickets -= amount;
+    }
 }

@@ -20,4 +20,6 @@ public interface GetEventFunctionality
      */
     Optional<GetMultipleEventsResponse> getByStringSearch(String query);
     Optional<GetEventResponse> getById(Long id);
+
+    GetMultipleEventsResponse getAll();
 }

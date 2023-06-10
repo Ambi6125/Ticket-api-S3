@@ -1,18 +1,21 @@
 package sem3.project.individual.controller;
 
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sem3.project.individual.business.CreateEventFunctionality;
 import sem3.project.individual.business.GetEventFunctionality;
+import sem3.project.individual.business.UpdateEventFunctionality;
 import sem3.project.individual.business.exceptions.TimeLocationOverlapException;
-import sem3.project.individual.domain.events.CreateEventRequest;
-import sem3.project.individual.domain.events.GetEventResponse;
-import sem3.project.individual.domain.events.GetMultipleEventsResponse;
+import sem3.project.individual.configuration.security.auth.RequireAuthentication;
+import sem3.project.individual.domain.events.*;
 import sem3.project.individual.misc.NotImplementedException;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.Collections;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -24,8 +27,10 @@ public class EventController
     private CreateEventFunctionality eventCreator;
     private GetEventFunctionality eventGetter;
 
+    private UpdateEventFunctionality eventUpdater;
+
     @PostMapping
-    public ResponseEntity<Object> createEvent(@RequestBody CreateEventRequest request)
+    public ResponseEntity<CreateEventResponse> createEvent(@RequestBody CreateEventRequest request)
     {
         try
         {
@@ -34,8 +39,16 @@ public class EventController
         }
         catch (TimeLocationOverlapException e)
         {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Data taken");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+
+
+    @GetMapping @RequireAuthentication @RolesAllowed({"ROLE_ADMIN"})
+    public ResponseEntity<GetMultipleEventsResponse> getAll()
+    {
+        var response = eventGetter.getAll();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
@@ -69,5 +82,23 @@ public class EventController
             return  ResponseEntity.ok(response.get());
         }
         else return ResponseEntity.ok(new GetMultipleEventsResponse(Collections.emptyList()));
+    }
+
+    @PutMapping
+    public ResponseEntity updateEvent(@RequestBody UpdateEventRequest request)
+    {
+        try
+        {
+            eventUpdater.UpdateEntity(request);
+            return ResponseEntity.noContent().build();
+        }
+        catch (NoSuchElementException notFound)
+        {
+            return ResponseEntity.notFound().build();
+        }
+        catch (TimeLocationOverlapException e)
+        {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }

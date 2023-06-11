@@ -43,17 +43,5 @@ public class UpdateEventFuncNormal implements UpdateEventFunctionality
         repo.save(target);
     }
 
-    @Override
-    public void purchaseTickets(Long targetId, int amount) throws IllegalArgumentException
-    {
-        EventEntity target = repo.fetchById(targetId);
 
-        Event targetDummy = MapObject.transform(target, EventConverter::toDomain);
-
-        targetDummy.purchaseTickets(amount);
-
-        target.setRemainingTickets(targetDummy.getRemainingTickets());
-
-        repo.save(target);
-    }
 }

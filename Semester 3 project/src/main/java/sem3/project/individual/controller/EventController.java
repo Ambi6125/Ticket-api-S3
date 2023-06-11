@@ -44,7 +44,8 @@ public class EventController
     }
 
 
-    @GetMapping @RequireAuthentication @RolesAllowed({"ROLE_ADMIN"})
+    @GetMapping
+    @RequireAuthentication @RolesAllowed({"ROLE_ADMIN"})
     public ResponseEntity<GetMultipleEventsResponse> getAll()
     {
         var response = eventGetter.getAll();

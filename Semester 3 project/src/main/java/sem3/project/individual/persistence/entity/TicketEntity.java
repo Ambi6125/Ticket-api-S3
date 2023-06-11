@@ -28,6 +28,6 @@ public class TicketEntity
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event")
     private EventEntity event;
 }

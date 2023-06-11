@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
-import sem3.project.individual.domain.tickets.Ticket;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;

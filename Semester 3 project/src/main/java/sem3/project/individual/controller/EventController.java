@@ -21,7 +21,7 @@ import java.util.Optional;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/events")
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = {"Accept", "Content-Type"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = {"Accept", "Content-Type", "Authorization"})
 public class EventController
 {
     private CreateEventFunctionality eventCreator;
@@ -44,8 +44,8 @@ public class EventController
     }
 
 
-    @GetMapping
     @RequireAuthentication @RolesAllowed({"ROLE_ADMIN"})
+    @GetMapping
     public ResponseEntity<GetMultipleEventsResponse> getAll()
     {
         var response = eventGetter.getAll();

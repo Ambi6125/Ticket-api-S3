@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sem3.project.individual.business.BuyTicketFunctionality;
-import sem3.project.individual.business.UpdateEventFunctionality;
 import sem3.project.individual.domain.events.Event;
 import sem3.project.individual.domain.events.EventConverter;
 import sem3.project.individual.domain.tickets.BuyTicketsResponse;
@@ -26,23 +25,21 @@ public class BuyTicketsFunctionalityNormal implements BuyTicketFunctionality
     private TicketRepository ticketRepo;
     private EventRepository eventRepo;
     private AccountRepository accountRepo;
-    @Override @Transactional
-    public BuyTicketsResponse buy(Long accountId, Long eventId, int amount)
-    {
-            //Update ticket count, dont commit yet
-            var updatedEntity = removeTicketCount(eventId, amount);
-            updatedEntity =  eventRepo.save(updatedEntity);
+    @Override
+    @Transactional
+    public BuyTicketsResponse buy(Long accountId, Long eventId, int amount) {
+        var updatedEntity = removeTicketCount(eventId, amount);
+        updatedEntity = eventRepo.save(updatedEntity);
+
+        List<Long> newIds = new ArrayList<>();
+
+        for (int i = 0; i < amount; i++) {
             var ticket = buildTicket(accountId, updatedEntity);
+            ticket = ticketRepo.save(ticket);
+            newIds.add(ticket.getId());
+        }
 
-            List<Long> newIds = new ArrayList<>();
-
-            for(int i = 0; i < amount; i++)
-            {
-                ticket = ticketRepo.save(ticket);
-                newIds.add(ticket.getId());
-            }
-
-            return new BuyTicketsResponse(newIds);
+        return new BuyTicketsResponse(newIds);
     }
 
     /**
@@ -51,10 +48,8 @@ public class BuyTicketsFunctionalityNormal implements BuyTicketFunctionality
      * @param amount The amount of tickets purchased.
      * @return An object ready to be saved by the caller.
      */
-    private EventEntity removeTicketCount(Long eventId, int amount)
-    {
+    private EventEntity removeTicketCount(Long eventId, int amount) {
         EventEntity target = eventRepo.fetchById(eventId);
-
         Event proxy = MapObject.transform(target, EventConverter::toDomain);
 
         proxy.purchaseTickets(amount);
@@ -64,13 +59,12 @@ public class BuyTicketsFunctionalityNormal implements BuyTicketFunctionality
         return target;
     }
 
-    private TicketEntity buildTicket(Long accountId, EventEntity event)
-    {
+    private TicketEntity buildTicket(Long accountId, EventEntity event) {
         AccountEntity foundAccount = accountRepo.fetchById(accountId);
-        TicketEntity finalEntity = new TicketEntity();
-        finalEntity.setEvent(event);
-        finalEntity.setAccount(foundAccount);
+        TicketEntity ticket = new TicketEntity();
+        ticket.setEvent(event);
+        ticket.setAccount(foundAccount);
 
-        return finalEntity;
+        return ticket;
     }
 }

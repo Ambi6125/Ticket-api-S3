@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
 
 @NoArgsConstructor
 @AllArgsConstructor @Data
-public class GetAllAccountsResponse
+public class GetMultipleAccountsResponse
 {
     private List<Account> accounts;
     public List<Account> getAccounts()

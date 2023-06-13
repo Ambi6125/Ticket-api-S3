@@ -13,6 +13,7 @@ import sem3.project.individual.business.exceptions.InvalidTokenException;
 import sem3.project.individual.configuration.security.auth.RequireAuthentication;
 import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.misc.UnexpectedResultException;
+import sem3.project.individual.persistence.DTO.AccountTicketCountDTO;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.NoSuchElementException;
@@ -30,9 +31,9 @@ public class AccountController
     private final UpdateAccountFunctionality updateAccountFunctionality;
 
     @GetMapping
-    public ResponseEntity<GetAllAccountsResponse> getAll()
+    public ResponseEntity<GetMultipleAccountsResponse> getAll()
     {
-        GetAllAccountsResponse response = getAccountFunctionality.getAllAccounts();
+        GetMultipleAccountsResponse response = getAccountFunctionality.getAllAccounts();
         return ResponseEntity.ok(response);
     }
 
@@ -101,5 +102,11 @@ public class AccountController
         }
 
         return ResponseEntity.ok().body(response);
+    }
+
+    public ResponseEntity<AccountRankingResponse<AccountTicketCountDTO>> getAccountsRankedByTicketsBought(@RequestBody int minimum)
+    {
+        var response = getAccountFunctionality.getAccountsByTicketsBought(minimum);
+        return ResponseEntity.ok(response);
     }
 }

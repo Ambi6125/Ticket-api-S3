@@ -9,6 +9,7 @@ import sem3.project.individual.domain.accounts.*;
 import sem3.project.individual.domain.login.tokens.AccessToken;
 import sem3.project.individual.misc.MapObject;
 import sem3.project.individual.persistence.AccountRepository;
+import sem3.project.individual.persistence.DTO.AccountTicketCountDTO;
 import sem3.project.individual.persistence.entity.AccountEntity;
 
 import javax.annotation.security.RolesAllowed;
@@ -78,15 +79,27 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
     }
 
     @Override @RolesAllowed({"ROLE_ADMIN"})
-    public GetAllAccountsResponse getAllAccounts()
+    public GetMultipleAccountsResponse getAllAccounts()
     {
         List<AccountEntity> result = repo.findAll();
-        final GetAllAccountsResponse responseAccounts = new GetAllAccountsResponse();
+        final GetMultipleAccountsResponse responseAccounts = new GetMultipleAccountsResponse();
 
         //Convert all persistence entities to domain instances
         List<Account> accounts = result.stream().map(AccountConverter::toDomain).toList();
 
         responseAccounts.setAccounts(accounts);
         return responseAccounts;
+    }
+
+    /**
+     * Gets a list of accounts sorted by the amount of tickets bought. Also includes the count of tickets.
+     *
+     * @param threshold Accounts who have bought fewer tickets than this amount are omitted.
+     * @return
+     */
+    public AccountRankingResponse<AccountTicketCountDTO> getAccountsByTicketsBought(int threshold)
+    {
+        var response = repo.getUsersByTicketCount(threshold);
+        return new AccountRankingResponse<>(response);
     }
 }

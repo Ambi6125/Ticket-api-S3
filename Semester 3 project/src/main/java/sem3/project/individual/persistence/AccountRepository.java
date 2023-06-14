@@ -17,12 +17,12 @@ public interface AccountRepository extends JpaRepository<AccountEntity, Long>
     @Query("SELECT e FROM AccountEntity e WHERE e.id = :id")
     AccountEntity fetchById(@Param("id") Long id);
 
-    @Query("SELECT new sem3.project.individual.persistence.DTO.UserTicketCountDTO(a.username, COUNT(t)) " +
+    @Query("SELECT new sem3.project.individual.persistence.DTO.AccountTicketCountDTO(a.username, COUNT(t)) " +
             "FROM AccountEntity a " +
             "JOIN a.purchasedTickets t " +
             "GROUP BY a.id, a.username " +
             "HAVING COUNT(t) >= :minAmount " +
             "ORDER BY COUNT(t) DESC")
-    List<AccountTicketCountDTO> getUsersByTicketCount(@Param("minAmount") int minAmount);
+    List<AccountTicketCountDTO> getUsersByTicketCount(@Param("minAmount") long minAmount);
 
 }

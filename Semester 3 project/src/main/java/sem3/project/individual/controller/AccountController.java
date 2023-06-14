@@ -101,9 +101,10 @@ public class AccountController
             return ResponseEntity.internalServerError().build();
         }
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/statistics/rank/buyers") @RequireAuthentication @RolesAllowed("ROLE_ADMIN")
     public ResponseEntity<AccountRankingResponse<AccountTicketCountDTO>> getAccountsRankedByTicketsBought(@RequestBody int minimum)
     {
         var response = getAccountFunctionality.getAccountsByTicketsBought(minimum);

@@ -99,7 +99,8 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
      */
     public AccountRankingResponse<AccountTicketCountDTO> getAccountsByTicketsBought(int threshold)
     {
-        var response = repo.getUsersByTicketCount(threshold);
+        long longThreshold = threshold;
+        var response = repo.getUsersByTicketCount(longThreshold);
         return new AccountRankingResponse<>(response);
     }
 }

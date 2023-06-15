@@ -1,16 +1,14 @@
 package sem3.project.individual.persistence.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import sem3.project.individual.domain.accounts.AccountRole;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -50,4 +48,13 @@ public class AccountEntity
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
     private Set<AccountRoleEntity> roles;
+
+
+    public Set<AccountRoleEntity> getRoles() {
+        if(roles == null)
+        {
+            return Collections.emptySet();
+        }
+        return roles;
+    }
 }

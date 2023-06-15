@@ -19,7 +19,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service @AllArgsConstructor
-public class GetAccountsDefaultImplementation implements GetAccountsFunctionality//How else would I implement this lmao
+public class GetAccountsFunctionalityNormal implements GetAccountsFunctionality//How else would I implement this lmao
 {
     private final AccountRepository repo;
     private AccessToken token;
@@ -28,23 +28,14 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
     @Override
     public Optional<GetAccountResponse> getById(Long id)
     {
-        AccountEntity response;
-
-        try
-        {
-            response = repo.fetchById(id);
-        }
-        catch (EntityNotFoundException e)
-        {
-            return null;
-        }
+        AccountEntity response = repo.fetchById(id);
 
         if(response == null)
         {
             return Optional.empty();
         }
 
-        Account result = MapObject.transform(response, AccountConverter::toDomain);
+        Account result = AccountConverter.toDomain(response);
 
         return Optional.of(new GetAccountResponse(result));
     }
@@ -65,7 +56,7 @@ public class GetAccountsDefaultImplementation implements GetAccountsFunctionalit
         }
 
 
-        Account result = MapObject.transform(response, AccountConverter::toDomain);
+        Account result = AccountConverter.toDomain(response);
 
         if(token.hasRole(AccountRole.ADMIN.name())) //TODO: If debugging; subject might not actually be username
         {

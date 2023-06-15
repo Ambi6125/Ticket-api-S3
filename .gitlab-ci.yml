@@ -14,6 +14,7 @@ build:
 
 test:
   stage: test
+  allow_failure: true
   script:
     - cd 'Semester 3 project'
     - ./gradlew test

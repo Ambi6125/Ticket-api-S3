@@ -105,7 +105,7 @@ class GetAccountsFunctionalityNormalTest {
 
         when(mockRepo.findByUsername(username)).thenReturn(accountEntity);
         when(mockToken.hasRole(AccountRole.ADMIN.name())).thenReturn(false);
-        when(mockToken.getSubject()).thenReturn("differentUsername");
+        when(mockToken.getSubject()).thenReturn("Something different");  // Set the same username as the token subject
 
         // Act & Assert
         assertThrows(InvalidTokenException.class, () -> useCase.getByUsername(username));
@@ -113,6 +113,7 @@ class GetAccountsFunctionalityNormalTest {
         verify(mockToken).hasRole(AccountRole.ADMIN.name());
         verify(mockToken).getSubject();
     }
+
 
     @Test
     void getAllAccounts() {

@@ -1,7 +1,6 @@
 package sem3.project.individual.controller;
 
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import sem3.project.individual.misc.NotImplementedException;
 
 import javax.annotation.security.RolesAllowed;
 import java.util.Collections;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -73,8 +71,8 @@ public class EventController
         throw new NotImplementedException();
     }
 
-    @GetMapping("/search/{searchQuery}")
-    public ResponseEntity<GetMultipleEventsResponse> getEventsByNameSearch(@PathVariable String searchQuery)
+    @GetMapping("/search")
+    public ResponseEntity<GetMultipleEventsResponse> getEventsByNameSearch(@RequestParam String searchQuery)
     {
         Optional<GetMultipleEventsResponse> response = eventGetter.getByStringSearch(searchQuery);
 
@@ -88,18 +86,15 @@ public class EventController
     @PutMapping
     public ResponseEntity updateEvent(@RequestBody UpdateEventRequest request)
     {
-        try
-        {
-            eventUpdater.UpdateEntity(request);
-            return ResponseEntity.noContent().build();
-        }
-        catch (NoSuchElementException notFound)
-        {
-            return ResponseEntity.notFound().build();
-        }
-        catch (TimeLocationOverlapException e)
-        {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+
+        eventUpdater.updateEntity(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<GetMultipleEventsResponse> getRandom()
+    {
+        var response = eventGetter.getRandom();
+        return ResponseEntity.ok(response);
     }
 }

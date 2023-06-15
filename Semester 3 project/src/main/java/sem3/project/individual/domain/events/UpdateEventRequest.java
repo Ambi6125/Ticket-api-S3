@@ -2,6 +2,7 @@ package sem3.project.individual.domain.events;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.builder.HashCodeExclude;
 import org.apache.commons.lang3.builder.ToStringExclude;
@@ -9,7 +10,7 @@ import sem3.project.individual.misc.InstantDeserializer;
 
 import java.time.Instant;
 
-@AllArgsConstructor @Data
+@AllArgsConstructor @Data @Builder
 public class UpdateEventRequest
 {
     private Long id;

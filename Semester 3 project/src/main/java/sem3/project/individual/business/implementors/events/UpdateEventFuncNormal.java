@@ -18,7 +18,7 @@ public class UpdateEventFuncNormal implements UpdateEventFunctionality
 {
     private EventRepository repo;
     @Override
-    public void UpdateEntity(UpdateEventRequest request) throws NoSuchElementException, TimeLocationOverlapException
+    public void updateEntity(UpdateEventRequest request)
     {
         EventEntity target = repo.fetchById(request.getId());
 

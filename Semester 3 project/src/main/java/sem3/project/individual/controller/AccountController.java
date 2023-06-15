@@ -22,7 +22,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/accounts")
 @AllArgsConstructor
-@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = {"Accept", "Content-Type"})
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:3000"}, allowedHeaders = {"Accept", "Content-Type", "Authorization"})
 public class AccountController
 {
     private final CreateAccountFunctionality createFunctionality;
@@ -105,9 +105,9 @@ public class AccountController
     }
 
     @GetMapping("/statistics/rank/buyers") @RequireAuthentication @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<AccountRankingResponse<AccountTicketCountDTO>> getAccountsRankedByTicketsBought(@RequestBody int minimum)
+    public ResponseEntity<AccountRankingResponse<AccountTicketCountDTO>> getAccountsRankedByTicketsBought(@RequestParam int min)
     {
-        var response = getAccountFunctionality.getAccountsByTicketsBought(minimum);
+        var response = getAccountFunctionality.getAccountsByTicketsBought(min);
         return ResponseEntity.ok(response);
     }
 }

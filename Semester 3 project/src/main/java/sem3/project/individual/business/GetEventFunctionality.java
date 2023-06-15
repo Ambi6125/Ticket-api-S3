@@ -22,4 +22,6 @@ public interface GetEventFunctionality
     Optional<GetEventResponse> getById(Long id);
 
     GetMultipleEventsResponse getAll();
+
+    GetMultipleEventsResponse getRandom();
 }

@@ -1,6 +1,8 @@
 package sem3.project.individual.business.implementors.events;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import sem3.project.individual.business.GetEventFunctionality;
 import sem3.project.individual.domain.events.Event;
@@ -68,5 +70,14 @@ public class GetEventFuncNormal implements GetEventFunctionality
     {
         var response = repo.findAll();
         return new GetMultipleEventsResponse(response.stream().map(EventConverter::toDomain).toList());
+    }
+
+    @Override
+    public GetMultipleEventsResponse getRandom()
+    {
+        Pageable pageable = PageRequest.of(0, 6);
+        var response = repo.getRandomEvents(pageable);
+        var mappedResponse = response.stream().map(EventConverter::toDomain).toList();
+        return new GetMultipleEventsResponse(mappedResponse);
     }
 }

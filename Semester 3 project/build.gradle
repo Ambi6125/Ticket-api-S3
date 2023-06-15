@@ -65,3 +65,4 @@ jacocoTestReport {
         }))
     }
 }
+project.tasks["sonarqube"].dependsOn "jacocoTestReport"

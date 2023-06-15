@@ -50,7 +50,7 @@ public class BuyTicketsFunctionalityNormal implements BuyTicketFunctionality
      */
     private EventEntity removeTicketCount(Long eventId, int amount) {
         EventEntity target = eventRepo.fetchById(eventId);
-        Event proxy = MapObject.transform(target, EventConverter::toDomain);
+        Event proxy = EventConverter.toDomain(target);
 
         proxy.purchaseTickets(amount);
 

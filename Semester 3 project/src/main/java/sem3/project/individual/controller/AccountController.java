@@ -81,27 +81,11 @@ public class AccountController
     }
 
     @PutMapping @RequireAuthentication @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
-    public ResponseEntity<UpdateAccountResponse> updateAccount(@RequestBody UpdateAccountRequest request)
+    public ResponseEntity<Void> updateAccount(@RequestBody UpdateAccountRequest request)
     {
-        UpdateAccountResponse response;
-        try
-        {
-            response = updateAccountFunctionality.update(request);
-        }
-        catch(NoSuchElementException notFound)
-        {
-            return ResponseEntity.notFound().build();
-        }
-        catch(UnexpectedResultException unexpected)
-        {
-            return ResponseEntity.badRequest().build();
-        }
-        catch(RuntimeException other)
-        {
-            return ResponseEntity.internalServerError().build();
-        }
+        updateAccountFunctionality.update(request);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/statistics/rank/buyers") @RequireAuthentication @RolesAllowed("ROLE_ADMIN")

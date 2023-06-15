@@ -1,9 +1,12 @@
 package sem3.project.individual.domain.accounts;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter @AllArgsConstructor
+@Data
+@AllArgsConstructor @Builder
 public class UpdateAccountRequest
 {
     private final Long targetId;

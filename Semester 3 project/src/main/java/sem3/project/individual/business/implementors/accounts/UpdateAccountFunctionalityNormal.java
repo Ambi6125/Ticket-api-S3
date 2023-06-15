@@ -3,6 +3,7 @@ package sem3.project.individual.business.implementors.accounts;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import sem3.project.individual.business.UpdateAccountFunctionality;
 import sem3.project.individual.domain.accounts.Account;
 import sem3.project.individual.domain.accounts.UpdateAccountRequest;
@@ -20,21 +21,19 @@ public class UpdateAccountFunctionalityNormal implements UpdateAccountFunctional
 
     private final AccountRepository repo;
     @Override
-    public UpdateAccountResponse update(UpdateAccountRequest request)
+    public void update(UpdateAccountRequest request)
     {
-        AccountEntity accountData = AccountEntity.builder()
-                .id(request.getTargetId())
-                .username(request.getUsername())
-                .password(request.getPassword())
-                .email(request.getEmail())
-                .build();
-        return saveChanges(accountData);
-    }
+        AccountEntity accountData = repo.fetchById(request.getTargetId());
 
-    @SneakyThrows
-    private UpdateAccountResponse saveChanges(AccountEntity account)
-    {
-        //TODO: Update implementation lacking
-        throw new NotImplementedException("Unsure how to update");
+        if(accountData == null)
+        {
+            throw new NoSuchElementException("Not found.");
+        }
+
+        accountData.setUsername(request.getUsername());
+        accountData.setEmail(request.getEmail());
+        accountData.setPassword(request.getPassword());
+
+        repo.save(accountData);
     }
 }

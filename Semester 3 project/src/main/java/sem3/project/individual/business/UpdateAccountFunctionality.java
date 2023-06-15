@@ -6,5 +6,5 @@ import sem3.project.individual.domain.accounts.UpdateAccountResponse;
 
 public interface UpdateAccountFunctionality
 {
-    UpdateAccountResponse update(UpdateAccountRequest request);
+    void update(UpdateAccountRequest request);
 }

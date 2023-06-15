@@ -21,7 +21,7 @@ public interface EventRepository extends JpaRepository<EventEntity, Long> {
     @Query("SELECT e FROM EventEntity e WHERE e.id = :id")
     EventEntity fetchById(@Param("id") Long id);
 
-    @Query("SELECT e FROM EventEntity e ORDER BY FUNCTION('RAND')")
+    @Query("SELECT e FROM EventEntity e ORDER BY FUNCTION('RAND') ")
     List<EventEntity> getRandomEvents(Pageable pageable);
 
 }

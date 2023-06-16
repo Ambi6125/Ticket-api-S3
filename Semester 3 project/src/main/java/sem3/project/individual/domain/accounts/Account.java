@@ -1,6 +1,7 @@
 package sem3.project.individual.domain.accounts;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -10,7 +11,7 @@ import java.util.Set;
 
 
 @AllArgsConstructor
-@Getter
+@Data
 public class Account
 {
     private final Long id;

@@ -60,7 +60,7 @@ public class GetAccountsFunctionalityNormal implements GetAccountsFunctionality/
 
         if(!token.hasRole(AccountRole.ADMIN.name())) //TODO: If debugging; subject might not actually be username
         {
-            if (token.getSubject() != username)
+            if (!token.getSubject().equals(username))
             {
                 throw new InvalidTokenException("Not same user.");
             }

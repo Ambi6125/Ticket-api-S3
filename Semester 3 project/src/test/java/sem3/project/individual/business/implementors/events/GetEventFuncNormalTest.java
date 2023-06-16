@@ -6,13 +6,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import sem3.project.individual.domain.events.Event;
+import sem3.project.individual.domain.events.EventConverter;
+import sem3.project.individual.domain.events.GetEventResponse;
 import sem3.project.individual.domain.events.GetMultipleEventsResponse;
 import sem3.project.individual.persistence.EventRepository;
 import sem3.project.individual.persistence.entity.AccountEntity;
 import sem3.project.individual.persistence.entity.EventEntity;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
@@ -27,23 +31,91 @@ class GetEventFuncNormalTest {
     @InjectMocks
     private GetEventFuncNormal useCase;
     @Test
-    void getByTitle() {
+    void getByTitle()
+    {
+        String title = "Your mother";
+
+        EventEntity e1 = EventEntity.builder()
+                .id(1L)
+                .build();
+
+
+
+        when(mockRepo.findByTitleIgnoreCase(title)).thenReturn(Optional.of(e1));
+
+        Optional<GetEventResponse> expected = Optional.of(new GetEventResponse(EventConverter.toDomain(e1)));
+
+        Optional<GetEventResponse> actual = useCase.getByTitle(title);
+
+        assertEquals(expected, actual);
+
+        verify(mockRepo).findByTitleIgnoreCase(title);
     }
 
     @Test
-    void getByTitleContains() {
+    void getByStringSearch()
+    {
+        String query = "ton";
+
+        EventEntity e1 = EventEntity.builder().id(1L).build();
+        Event domainE1 = EventConverter.toDomain(e1);
+        when(mockRepo.findBySearchQuery(query)).thenReturn(List.of(e1));
+
+        Optional<GetMultipleEventsResponse> expected = Optional.of(GetMultipleEventsResponse.builder()
+                .events(List.of(domainE1))
+                .build());
+
+        Optional<GetMultipleEventsResponse> actual = useCase.getByStringSearch(query);
+
+        assertEquals(expected, actual);
+        verify(mockRepo).findBySearchQuery(query);
     }
 
     @Test
-    void getByLocation() {
+    void getByStringSearch_NoValueFound_ReturnsEmptyOptional()
+    {
+        String query = "on";
+
+        when(mockRepo.findBySearchQuery(query)).thenReturn(Collections.emptyList());
+
+        Optional<GetMultipleEventsResponse> expected = Optional.empty();
+
+        Optional<GetMultipleEventsResponse> actual = useCase.getByStringSearch(query);
+
+        assertEquals(expected, actual);
+        verify(mockRepo).findBySearchQuery(query);
     }
 
     @Test
-    void getByStringSearch() {
+    void getById()
+    {
+        Long id = 1L;
+
+        Optional<EventEntity> e1 = Optional.of(EventEntity.builder().id(1L).build());
+
+        when(mockRepo.findById(id)).thenReturn(e1);
+
+        Optional<GetEventResponse> expected = Optional.of(new GetEventResponse(EventConverter.toDomain(e1.get())));
+
+        Optional<GetEventResponse> actual = useCase.getById(id);
+
+        assertEquals(expected, actual);
+
+        verify(mockRepo).findById(id);
     }
 
     @Test
-    void getById() {
+    void getById_NotFound_ReturnsEmptyOptional()
+    {
+        Long id = 1L;
+
+        when(mockRepo.findById(id)).thenReturn(Optional.empty());
+
+        Optional<GetEventResponse> expected = Optional.empty();
+        Optional<GetEventResponse> actual = useCase.getById(id);
+
+        assertEquals(expected, actual);
+        verify(mockRepo).findById(id);
     }
 
     @Test

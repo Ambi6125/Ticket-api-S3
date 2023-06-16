@@ -27,15 +27,7 @@ public class GetEventFuncNormal implements GetEventFunctionality
                 .map(response -> new GetEventResponse(EventConverter.toDomain(response)));
     }
 
-    @Override
-    public Optional<GetEventResponse> getByTitleContains(String criteria) {
-        throw new NotImplementedException();
-    }
 
-    @Override
-    public Optional<GetEventResponse> getByLocation(String location) {
-        throw new NotImplementedException();
-    }
 
     @Override
     public Optional<GetMultipleEventsResponse> getByStringSearch(String query)

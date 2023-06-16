@@ -8,8 +8,6 @@ import java.util.Optional;
 public interface GetEventFunctionality
 {
     Optional<GetEventResponse> getByTitle(String title);
-    Optional<GetEventResponse> getByTitleContains(String criteria);
-    Optional<GetEventResponse> getByLocation(String location);
 
     /**
      * Checks the data source for any event that either

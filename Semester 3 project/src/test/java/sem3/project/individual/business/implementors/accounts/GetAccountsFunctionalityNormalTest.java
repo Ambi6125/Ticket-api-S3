@@ -69,6 +69,20 @@ class GetAccountsFunctionalityNormalTest {
     }
 
     @Test
+    void getByUsername_AccountDoesNotExist_ReturnsNull()
+    {
+        String username = "Ambi";
+        when(mockRepo.findByUsername(username)).thenThrow(NoSuchElementException.class);
+
+
+        GetAccountResponse actual = useCase.getByUsername(username);
+
+        assertNull(actual);
+        verify(mockRepo).findByUsername(username);
+
+    }
+
+    @Test
     void getByUsername_AccountExistsAndValidToken_ReturnsResponseWithAccount() throws InvalidTokenException {
         // Arrange
         String username = "username";

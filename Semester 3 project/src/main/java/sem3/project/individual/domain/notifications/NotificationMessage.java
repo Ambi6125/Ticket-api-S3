@@ -9,4 +9,3 @@ public class NotificationMessage {
     private String to;
     private String text;
 }
-

@@ -26,7 +26,7 @@ public class LoginFuncNormal implements LoginFunctionality
 
 
     @Override
-    public LoginResponse login(LoginRequest request) throws InvalidCredentialsException
+    public LoginResponse login(LoginRequest request)
     {
         AccountEntity foundUser = accountRepo.findByUsername(request.getUsername());
         if(foundUser == null)

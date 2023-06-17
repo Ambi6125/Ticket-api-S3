@@ -3,3 +3,13 @@ WORKDIR /opt/app
 COPY ./build/libs/Semester3project-0.0.1-SNAPSHOT.jar ./
 
 ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar Semester3project-0.0.1-SNAPSHOT.jar"]
+
+#FROM openjdk:8-jdk-alpine
+#
+#ARG JAR_FILE=build/libs/*.jar
+#
+#
+#ADD ${JAR_FILE} app.jar
+#
+#
+#ENTRYPOINT ["java","-jar","/app.jar"]

@@ -93,8 +93,7 @@ class GetAccountsFunctionalityNormalTest {
                 .build();
 
         when(mockRepo.findByUsername(username)).thenReturn(accountEntity);
-        when(mockToken.hasRole(AccountRole.ADMIN.name())).thenReturn(false);
-        when(mockToken.getSubject()).thenReturn(username);
+        when(mockToken.hasRole(AccountRole.ADMIN.name())).thenReturn(true);
 
         // Act
         GetAccountResponse response = useCase.getByUsername(username);
@@ -104,7 +103,6 @@ class GetAccountsFunctionalityNormalTest {
         assertEquals(username, response.getAccount().getUsername());
         verify(mockRepo).findByUsername(username);
         verify(mockToken).hasRole(AccountRole.ADMIN.name());
-        verify(mockToken).getSubject();
     }
 
     @Test

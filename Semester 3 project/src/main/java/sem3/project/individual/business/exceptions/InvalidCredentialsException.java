@@ -1,13 +1,12 @@
 package sem3.project.individual.business.exceptions;
 
-public class InvalidCredentialsException extends ExceptionWithMessage
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
+
+public class InvalidCredentialsException extends ResponseStatusException
 {
     public InvalidCredentialsException()
     {
-        super("Username or password incorrect.");
-    }
-    public InvalidCredentialsException(String message)
-    {
-        super(message);
+        super(HttpStatus.BAD_REQUEST, "Invalid credentials.");
     }
 }

@@ -27,7 +27,6 @@ public class AccountController
 {
     private final CreateAccountFunctionality createFunctionality;
     private final GetAccountsFunctionality getAccountFunctionality;
-    private final DeleteAccountsFunctionality deleteAccountsFunctionality;
     private final UpdateAccountFunctionality updateAccountFunctionality;
 
     @GetMapping
@@ -58,12 +57,6 @@ public class AccountController
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @DeleteMapping("{id}") @RequireAuthentication
-    public ResponseEntity<Void> delete(@PathVariable Long id)
-    {
-        deleteAccountsFunctionality.deleteAccount(id);
-        return ResponseEntity.noContent().build();
-    }
 
     @GetMapping("/{username}") @RequireAuthentication @RolesAllowed({"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<GetAccountResponse> getAccount(@PathVariable String username)

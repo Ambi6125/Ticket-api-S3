@@ -26,19 +26,9 @@ public class UpdateEventFuncNormal implements UpdateEventFunctionality
         {
             throw new NoSuchElementException();
         }
-
-        if(!target.getTitle().equals(request.getTitle()))
-        {
-            target.setTitle(request.getTitle());
-        }
-        if(!target.getLocation().equals(request.getLocation()))
-        {
-            target.setLocation(request.getLocation());
-        }
-        if(!target.getMoment().equals(request.getMoment()))
-        {
-            target.setMoment(request.getMoment());
-        }
+        target.setTitle(request.getTitle());
+        target.setLocation(request.getLocation());
+        target.setMoment(request.getMoment());
 
         repo.save(target);
     }

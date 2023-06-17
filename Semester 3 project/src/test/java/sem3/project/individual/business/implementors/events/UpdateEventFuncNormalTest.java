@@ -10,10 +10,11 @@ import sem3.project.individual.persistence.EventRepository;
 import sem3.project.individual.persistence.entity.EventEntity;
 
 import java.time.Instant;
+import java.util.NoSuchElementException;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateEventFuncNormalTest
@@ -63,5 +64,19 @@ class UpdateEventFuncNormalTest
 
         verify(repo).fetchById(request.getId());
         verify(repo).save(entity);
+    }
+
+    @Test
+    void updateEntity_NonexistentId_ThrowsNoSuchElementException_AndSavesNothing()
+    {
+
+        UpdateEventRequest request = UpdateEventRequest.builder()
+                .id(100L)
+                .build();
+
+        when(repo.fetchById(request.getId())).thenReturn(null);
+
+        assertThrows(NoSuchElementException.class, () -> useCase.updateEntity(request));
+        verify(repo, never()).save(any());
     }
 }

@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:latest
+    ports:
+      - 3390:3306
+    volumes:
+      - ./test_ticket_db:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ticketexchange
+    networks:
+      - ticketexchange_network_staging
+
+  app:
+    build:
+      context: ./semester 3 project
+      dockerfile: Dockerfile
+    ports:
+      - 8090:8080
+    volumes:
+      - ./semester 3 project/build/libs:/opt/app
+    environment: 
+      - JAVA_OPTS=-Dspring.datasource.url=jdbc:mysql://mysql:3306/ticketexchange -Dspring.datasource.username=root -Dspring.datasource.password=root -Dspring.profiles.active=staging
+    networks:
+      - ticketexchange_network_staging
+
+networks:
+  ticketexchange_network_staging:
+    external: true

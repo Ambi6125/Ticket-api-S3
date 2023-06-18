@@ -5,6 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import sem3.project.individual.domain.events.Event;
 import sem3.project.individual.domain.events.EventConverter;
 import sem3.project.individual.domain.events.GetEventResponse;
@@ -165,5 +167,39 @@ class GetEventFuncNormalTest {
 
         assertEquals(response, expectedResponse);
         verify(mockRepo).findAll();
+    }
+
+    @Test
+    void getRandom_ReturnsSixResults()
+    {
+        Pageable sixEntries = PageRequest.of(0, 6);
+        EventEntity e1 = EventEntity.builder()
+                .id(1L)
+                .build();
+        EventEntity e2 = EventEntity.builder()
+                .id(2L)
+                .build();
+        EventEntity e3 = EventEntity.builder()
+                .id(3L)
+                .build();
+        EventEntity e4 = EventEntity.builder()
+                .id(4L)
+                .build();
+        EventEntity e5 = EventEntity.builder()
+                .id(5L)
+                .build();
+        EventEntity e6 = EventEntity.builder()
+                .id(6L)
+                .build();
+
+        List<EventEntity> expectedResult = List.of(e1, e2, e3, e4, e5, e6);
+        List<Event> expectedResultMapped = expectedResult.stream().map(EventConverter::toDomain).toList();
+        GetMultipleEventsResponse expected = new GetMultipleEventsResponse(expectedResultMapped);
+
+        when(mockRepo.getRandomEvents(sixEntries)).thenReturn(expectedResult);
+
+        GetMultipleEventsResponse actual = useCase.getRandom();
+
+        assertEquals(expected, actual);
     }
 }

@@ -58,7 +58,7 @@ public class GetAccountsFunctionalityNormal implements GetAccountsFunctionality/
 
         Account result = AccountConverter.toDomain(response);
 
-        if(!token.hasRole(AccountRole.ADMIN.name())) //TODO: If debugging; subject might not actually be username
+        if(!token.hasRole(AccountRole.ADMIN.name()))
         {
             if (!token.getSubject().equals(username))
             {

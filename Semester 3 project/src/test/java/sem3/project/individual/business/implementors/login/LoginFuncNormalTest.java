@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sem3.project.individual.business.AccessTokenEncoder;
+import sem3.project.individual.business.exceptions.InvalidCredentialsException;
 import sem3.project.individual.domain.accounts.AccountRole;
 import sem3.project.individual.domain.login.LoginRequest;
 import sem3.project.individual.domain.login.LoginResponse;
@@ -19,8 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class LoginFuncNormalTest {
@@ -72,5 +72,36 @@ class LoginFuncNormalTest {
         verify(accountRepo).findByUsername(request.getUsername());
         verify(passwordEncoder).matches(request.getPassword(), result.getPassword());
         verify(tokenEncoder).encode(token);
+    }
+    
+    @Test
+    void login_UsernameDoesNotExist_ThrowsInvalidCredentialsException()
+    {
+        LoginRequest request = new LoginRequest("nameThatDoesNotExist", "123");
+
+        when(accountRepo.findByUsername(request.getUsername())).thenReturn(null);
+
+        assertThrows(InvalidCredentialsException.class, () -> useCase.login(request));
+
+        verify(tokenEncoder,  never()).encode(any());
+    }
+
+    @Test
+    void login_UsernameExistsButIncorrectPassword_ThrowsInvalidCredentialsException()
+    {
+        LoginRequest request = new LoginRequest("Correct Username", "Incorrect password");
+        AccountEntity accountThatMatchesUsername = AccountEntity.builder()
+                .username("Correct Username")
+                .password("Real password")
+                .build();
+
+        when(accountRepo.findByUsername(request.getUsername())).thenReturn(accountThatMatchesUsername);
+
+        when(passwordEncoder.matches(request.getPassword(),accountThatMatchesUsername.getPassword()))
+                .thenReturn(false);
+
+        assertThrows(InvalidCredentialsException.class, () -> useCase.login(request));
+
+        verify(tokenEncoder, never()).encode(any());
     }
 }
